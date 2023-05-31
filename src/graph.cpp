@@ -88,3 +88,167 @@ void Graph::create_graph(std::string args)
     edges = split_string(args, false);
     std::cout << "OK" << std::endl;
 }
+
+int countDigits(int num) {
+    int count = 0;
+
+    if (num < 0)
+    {
+        num = -num;
+        count++;
+    }
+
+    if(num == 0)
+    {
+        return 1;
+    }
+
+    while (num != 0)
+    {
+        num /= 10;
+        count++;
+    }
+    return count;
+}
+
+void Graph::show()
+{
+    int a = countDigits(-3);
+    std::cout << a << std::endl;
+    if(edges.size() == 0)
+    {
+        std::cout << EMPTY_GRAPH << std::endl;
+        return;
+    }
+
+    std::cout << "     |";
+    int max_size = 5;
+    for (auto node: nodes)
+    {
+        int findNumDigit = countDigits(node);
+        int space_size = max_size - findNumDigit;
+
+        if(space_size % 2 == 0)
+        {
+            for (int j = 0; j < space_size / 2; j++)
+            {
+                std::cout << " ";
+            }
+            std::cout << node;
+            for (int j = 0; j < space_size / 2; j++)
+            {
+                std::cout << " ";
+            }
+        }
+        else
+        {
+            for (int j = 0; j < space_size / 2; j++)
+            {
+                std::cout << " ";
+            }
+            std::cout << node;
+            for (int j = 0; j < space_size / 2 + 1; j++)
+            {
+                std::cout << " ";
+            }
+        }
+    }
+
+    std::cout << std::endl;
+    int delim_count = (nodes.size() + 2) * max_size;
+    for (int i = 0; i < delim_count; i++)
+    {
+        std::cout << "-";
+    }
+
+    std::cout << std::endl;
+    for(auto node: nodes)
+    {
+        int findNumDigit = countDigits(node);
+        int space_size = max_size - findNumDigit;
+
+        if(space_size % 2 == 0)
+        {
+            for (int j = 0; j < space_size / 2; j++)
+            {
+                std::cout << " ";
+            }
+            std::cout << node;
+            for (int j = 0; j < space_size / 2; j++)
+            {
+                std::cout << " ";
+            }
+        }
+        else
+        {
+            for (int j = 0; j < space_size / 2; j++)
+            {
+                std::cout << " ";
+            }
+            std::cout << node;
+            for (int j = 0; j < space_size / 2 + 1; j++)
+            {
+                std::cout << " ";
+            }
+        }
+        std::cout << "|";
+
+        for(auto node2: nodes)
+        {
+            bool found = false;
+            for (int i = 0; i < edges.size(); i++)
+            {
+                
+                if(edges[i].u == node && edges[i].v == node2)
+                {
+                    int findNumDigit = countDigits(edges[i].w);
+                    int space_size = max_size - findNumDigit;
+                    found = true;
+
+                    if(space_size % 2 == 0)
+                    {
+                        for (int j = 0; j < space_size / 2; j++)
+                        {
+                            std::cout << " ";
+                        }
+                        std::cout << edges[i].w;
+                        for (int j = 0; j < space_size / 2; j++)
+                        {
+                            std::cout << " ";
+                        }
+                    }
+                    else
+                    {
+                        for (int j = 0; j < space_size / 2; j++)
+                        {
+                            std::cout << " ";
+                        }
+                        std::cout << edges[i].w;
+                        for (int j = 0; j < space_size / 2 + 1; j++)
+                        {
+                            std::cout << " ";
+                        }
+                    }
+                    break;
+                }
+            }
+            if(!found)
+            {
+                //print 0
+                int findNumDigit = countDigits(0);
+                int space_size = max_size - findNumDigit;
+                for (int j = 0; j < space_size / 2; j++)
+                {
+                    std::cout << " ";
+                }
+                std::cout << 0;
+                for (int j = 0; j < space_size / 2; j++)
+                {
+                    std::cout << " ";
+                }
+            }
+        }
+        std::cout << std::endl;
+    }
+
+}
