@@ -17,5 +17,9 @@ void Command::read_command()
         {
             graph.create_graph(args);
         }
+        else if(command == "show")
+        {
+            graph.show();
+        }
     }
 }
