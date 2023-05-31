@@ -14,7 +14,7 @@ We will explain each of them in the following sections.
 Now we explain each part of code. We start with the main function.
 
 ## Main Function
-In the main function, we create an object of the Command class and call the read_command function.  
+In the `main` function, we create an object of the Command class and call the `read_command` function.  
 
 ```c++
 #include "../include/main.hpp"
