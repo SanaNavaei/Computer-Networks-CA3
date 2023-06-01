@@ -12,6 +12,7 @@
 
 #define ERR_SAMENODES "Error: u and v are the same."
 #define EMPTY_GRAPH "The Adjacency Matrix is empty."
+#define ERROR "Error"
 
 struct graphs{
     int u, v, w;
@@ -26,6 +27,7 @@ private:
 public:
     void create_graph(std::string args);
     void show();
+    void modify(std::string args);
 
     bool handle_same_nodes(int u, int v);
 
