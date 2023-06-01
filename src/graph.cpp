@@ -264,39 +264,6 @@ int Graph::check_if_exist(int s, int d)
     return 0;
 }
 
-void Graph::modify(std::string args)
-{
-    std::vector<graphs> this_edge = split_string(args, true);
-    int s = this_edge[0].u;
-    int d = this_edge[0].v;
-    int c = this_edge[0].w;
-    if (s == d)
-    {
-        std::cout << ERROR << std::endl;
-    }
-    else if(nodes.count(s) && nodes.count(d))
-    {
-        int index;
-        if(index = check_if_exist(s, d))
-        {
-            edges[index - 1].w = c;
-            edges[index].w = c;
-        }
-        else
-        {
-            graphs new_graph = {s, d, c};
-            graphs new_graph2 = {d, s, c};
-            edges.push_back(new_graph);
-            edges.push_back(new_graph2);
-        }
-        std::cout << "OK" << std::endl;
-    }
-    else
-    {
-        std::cout << ERROR << std::endl;   
-    }
-}
-
 bool check_format(std::string args)
 {
     int size = args.size();
@@ -308,10 +275,77 @@ bool check_format(std::string args)
         error_flag = true;
     if(error_flag)
     {
+        //std::cout << ERROR << std::endl;
+        return false;
+    }
+    return true;
+}
+
+bool check_extended_format(std::string args)
+{
+    bool error_flag = false;
+    if(args.size() == 5)
+    {
+        if(check_format(args.substr(0,3)))
+        {
+            if(args[3] != '-' || !isdigit(args[4]))
+                error_flag = true;
+        }
+    }
+    else if(args.size() == 6)
+    {
+        if(check_format(args.substr(0,3)))
+        {
+            if(!isdigit(args[5]) || args[3] != '-' || args[4] != '-')
+                error_flag = true;
+        }
+    }
+    else 
+    {
+        error_flag = true;
+    }
+    if(error_flag)
+    {
         std::cout << ERROR << std::endl;
         return false;
     }
     return true;
+}
+
+void Graph::modify(std::string args)
+{
+    if(check_extended_format(args))
+    {
+        std::vector<graphs> this_edge = split_string(args, true);
+        int s = this_edge[0].u;
+        int d = this_edge[0].v;
+        int c = this_edge[0].w;
+        if (s == d)
+        {
+            std::cout << ERROR << std::endl;
+        }
+        else if(nodes.count(s) && nodes.count(d))
+        {
+            int index;
+            if(index = check_if_exist(s, d))
+            {
+                edges[index - 1].w = c;
+                edges[index].w = c;
+            }
+            else
+            {
+                graphs new_graph = {s, d, c};
+                graphs new_graph2 = {d, s, c};
+                edges.push_back(new_graph);
+                edges.push_back(new_graph2);
+            }
+            std::cout << "OK" << std::endl;
+        }
+        else
+        {
+            std::cout << ERROR << std::endl;   
+        }
+    }
 }
 
 void Graph::remove(std::string args)
@@ -341,4 +375,6 @@ void Graph::remove(std::string args)
             std::cout << ERROR << std::endl;
         }
     }
+    else
+        std::cout << ERROR << std::endl;
 }
