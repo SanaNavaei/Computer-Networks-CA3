@@ -32,6 +32,7 @@ public:
     bool handle_same_nodes(int u, int v);
 
     std::vector<graphs> split_string(std::string inputString, bool just_split);
+    int check_if_exist(int s, int d);
 };
 
 #endif
