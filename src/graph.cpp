@@ -250,8 +250,20 @@ void Graph::show()
         }
         std::cout << std::endl;
     }
-
 }
+
+int Graph::check_if_exist(int s, int d)
+{
+    for(int i = 0; i < edges.size(); i++)
+    {
+        if((edges[i].u == s && edges[i].v == d) || (edges[i].v == s && edges[i].u == d))
+        {
+            return i + 1;
+        }
+    }
+    return 0;
+}
+
 void Graph::modify(std::string args)
 {
     std::vector<graphs> this_edge = split_string(args, true);
