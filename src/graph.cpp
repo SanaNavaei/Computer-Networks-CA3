@@ -1,10 +1,38 @@
 #include "../include/graph.hpp"
 
+void Graph::print_handler(std::string word, int space_size)
+{
+    if(space_size % 2 == 0)
+    {
+        for (int j = 0; j < space_size / 2; j++)
+        {
+            std::cout << " ";
+        }
+        std::cout << word;
+        for (int j = 0; j < space_size / 2; j++)
+        {
+            std::cout << " ";
+        }
+    }
+    else
+    {
+        for (int j = 0; j < space_size / 2; j++)
+        {
+            std::cout << " ";
+        }
+        std::cout << word;
+        for (int j = 0; j < space_size / 2 + 1; j++)
+        {
+            std::cout << " ";
+        }
+    }
+}
+
 bool Graph::handle_same_nodes(int u, int v)
 {
     if(u == v)
     {
-        std::cout << ERR_SAMENODES << std::endl;
+        std::cout << ERROR << std::endl;
         return true;
     }
     return false;
@@ -113,8 +141,6 @@ int countDigits(int num) {
 
 void Graph::show()
 {
-    int a = countDigits(-3);
-    std::cout << a << std::endl;
     if(edges.size() == 0)
     {
         std::cout << EMPTY_GRAPH << std::endl;
@@ -128,30 +154,7 @@ void Graph::show()
         int findNumDigit = countDigits(node);
         int space_size = max_size - findNumDigit;
 
-        if(space_size % 2 == 0)
-        {
-            for (int j = 0; j < space_size / 2; j++)
-            {
-                std::cout << " ";
-            }
-            std::cout << node;
-            for (int j = 0; j < space_size / 2; j++)
-            {
-                std::cout << " ";
-            }
-        }
-        else
-        {
-            for (int j = 0; j < space_size / 2; j++)
-            {
-                std::cout << " ";
-            }
-            std::cout << node;
-            for (int j = 0; j < space_size / 2 + 1; j++)
-            {
-                std::cout << " ";
-            }
-        }
+        print_handler(std::to_string(node), space_size);
     }
 
     std::cout << std::endl;
@@ -167,72 +170,12 @@ void Graph::show()
         int findNumDigit = countDigits(node);
         int space_size = max_size - findNumDigit;
 
-        if(space_size % 2 == 0)
-        {
-            for (int j = 0; j < space_size / 2; j++)
-            {
-                std::cout << " ";
-            }
-            std::cout << node;
-            for (int j = 0; j < space_size / 2; j++)
-            {
-                std::cout << " ";
-            }
-        }
-        else
-        {
-            for (int j = 0; j < space_size / 2; j++)
-            {
-                std::cout << " ";
-            }
-            std::cout << node;
-            for (int j = 0; j < space_size / 2 + 1; j++)
-            {
-                std::cout << " ";
-            }
-        }
+        print_handler(std::to_string(node), space_size);
         std::cout << "|";
 
         for(auto node2: nodes)
         {
-            bool found = false;
-            for (int i = 0; i < edges.size(); i++)
-            {
-                
-                if(edges[i].u == node && edges[i].v == node2)
-                {
-                    int findNumDigit = countDigits(edges[i].w);
-                    int space_size = max_size - findNumDigit;
-                    found = true;
-
-                    if(space_size % 2 == 0)
-                    {
-                        for (int j = 0; j < space_size / 2; j++)
-                        {
-                            std::cout << " ";
-                        }
-                        std::cout << edges[i].w;
-                        for (int j = 0; j < space_size / 2; j++)
-                        {
-                            std::cout << " ";
-                        }
-                    }
-                    else
-                    {
-                        for (int j = 0; j < space_size / 2; j++)
-                        {
-                            std::cout << " ";
-                        }
-                        std::cout << edges[i].w;
-                        for (int j = 0; j < space_size / 2 + 1; j++)
-                        {
-                            std::cout << " ";
-                        }
-                    }
-                    break;
-                }
-            }
-            if(!found)
+            if(node == node2)
             {
                 //print 0
                 int findNumDigit = countDigits(0);
@@ -246,6 +189,27 @@ void Graph::show()
                 {
                     std::cout << " ";
                 }
+                continue;
+            }
+            
+            bool found = false;
+            for (int i = 0; i < edges.size(); i++)
+            {
+                
+                if(edges[i].u == node && edges[i].v == node2)
+                {
+                    int findNumDigit = countDigits(edges[i].w);
+                    int space_size = max_size - findNumDigit;
+                    found = true;
+
+                    print_handler(std::to_string(edges[i].w), space_size);
+                    break;
+                }
+            }
+            if(!found)
+            {
+                //print -1
+                std::cout << " " << -1 << "  ";
             }
         }
         std::cout << std::endl;
@@ -392,4 +356,129 @@ void Graph::remove(std::string args)
     }
     else
         std::cout << ERROR << std::endl; 
+}
+
+void Graph::handler_dvrp(std::string args)
+{
+    //check if we have source
+    if(args.size() == 0)
+    {
+        for(auto node: nodes)
+        {
+            std::cout << "dvrp for node " << node << ":\n";
+            dvrp(node);
+        }
+    }
+    else
+    {
+        int source = stoi(args);
+        if(nodes.count(source))
+        {
+            std::cout << "dvrp for node " << source << ":\n";
+            dvrp(source);
+        }
+        else
+        {
+            std::cout << ERROR << std::endl;
+        }
+    }
+}
+
+void Graph::dvrp(int source)
+{
+    int nodes_size = nodes.size() + 1;
+    std::vector<int> distance(nodes_size);
+    std::vector<int> parent(nodes_size);
+
+    for (int i = 0; i < nodes_size; i++)
+    {
+        distance[i] = INFINITY;
+        parent[i] = -1;
+    }
+
+    distance[source] = 0;
+    for (int i = 1; i < nodes_size; i++)
+    {
+        for (int j = 0; j < edges.size(); j++)
+        {
+            int u = edges[j].u;
+            int v = edges[j].v;
+            int w = edges[j].w;
+            if (distance[u] + w < distance[v])
+            {
+                distance[v] = distance[u] + w;
+                parent[v] = u;
+            }
+        }
+    }
+
+    print_dvrp(source, distance, parent);
+}
+
+void Graph::print_dvrp(int source,std::vector<int> &distance,  std::vector<int> &parent)
+{
+    std::cout << "   Dest   | Next Hop |   Dist   | Shortest-Path \n";
+    std::cout << "---------------------------------------------------\n";
+
+    int max_size = 10;
+    int prev_par;
+    for (auto node: nodes)
+    {
+        if(node == source)
+        {
+            //print dest node
+            int findNumDigit = countDigits(node);
+            int space_size = max_size - findNumDigit;
+
+            print_handler(std::to_string(node), space_size);
+            std::cout << "|";
+
+            //print Next Hop
+            findNumDigit = countDigits(node);
+            space_size = max_size - findNumDigit;
+            print_handler(std::to_string(node), space_size);
+            std::cout << "|";
+
+            //print distance
+            findNumDigit = countDigits(0);
+            space_size = max_size - findNumDigit;
+            print_handler(std::to_string(0), space_size);
+            std::cout << "|";
+
+            //print path
+            std::cout << " [" << node << "]" << std::endl;
+            continue;
+        }
+        
+        //print dest node
+        int findNumDigit = countDigits(node);
+        int space_size = max_size - findNumDigit;
+
+        print_handler(std::to_string(node), space_size);
+        std::cout << "|";
+
+        //print Next Hop
+        int par = node;
+        std::string path = "";
+        while (parent[par] != -1)
+        {
+            path = " -> " + std::to_string(par) + path;
+            prev_par = par;
+            par = parent[par];
+        }
+        findNumDigit = countDigits(prev_par);
+        space_size = max_size - findNumDigit;
+        print_handler(std::to_string(prev_par), space_size);
+        std::cout << "|";
+
+        //print distance
+        findNumDigit = countDigits(distance[node]);
+        space_size = max_size - findNumDigit;
+        print_handler(std::to_string(distance[node]), space_size);
+        std::cout << "|";
+
+        //print path
+        std::cout << " [" << source << path << "]";
+        std::cout << std::endl;
+    }
 }
