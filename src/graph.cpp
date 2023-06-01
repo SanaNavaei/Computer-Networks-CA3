@@ -252,3 +252,35 @@ void Graph::show()
     }
 
 }
+void Graph::modify(std::string args)
+{
+    std::vector<graphs> this_edge = split_string(args, true);
+    int s = this_edge[0].u;
+    int d = this_edge[0].v;
+    int c = this_edge[0].w;
+    if (s == d)
+    {
+        std::cout << ERROR << std::endl;
+    }
+    else if(nodes.count(s) && nodes.count(d))
+    {
+        int index;
+        if(index = check_if_exist(s, d))
+        {
+            edges[index - 1].w = c;
+            edges[index].w = c;
+        }
+        else
+        {
+            graphs new_graph = {s, d, c};
+            graphs new_graph2 = {d, s, c};
+            edges.push_back(new_graph);
+            edges.push_back(new_graph2);
+        }
+        std::cout << "OK" << std::endl;
+    }
+    else
+    {
+        std::cout << ERROR << std::endl;   
+    }
+}
