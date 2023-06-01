@@ -297,28 +297,48 @@ void Graph::modify(std::string args)
     }
 }
 
+bool check_format(std::string args)
+{
+    int size = args.size();
+    bool error_flag = false;
+    if(size != 3 || args[1] != '-')
+        error_flag = true;
+    
+    else if(!isdigit(args[0]) || !isdigit(args[2]))
+        error_flag = true;
+    if(error_flag)
+    {
+        std::cout << ERROR << std::endl;
+        return false;
+    }
+    return true;
+}
+
 void Graph::remove(std::string args)
 {
-    std::string ss = args.substr(0,1);
-    std::string dd = args.substr(2,1);
-    int s = stoi(ss);//std::strtol(args[0].c_str(), nullptr, 10);
-    int d = stoi(dd);
-    int index;
-    if (nodes.count(s) && nodes.count(d))
+    if(check_format(args))
     {
-        if(index = check_if_exist(s, d))
+        std::string ss = args.substr(0,1);
+        std::string dd = args.substr(2,1);
+        int s = stoi(ss);//std::strtol(args[0].c_str(), nullptr, 10);
+        int d = stoi(dd);
+        int index;
+        if (nodes.count(s) && nodes.count(d))
         {
-            edges.erase(edges.begin() + index);
-            edges.erase(edges.begin() + index - 1);
-            std::cout << "OK" << std::endl;
+            if(index = check_if_exist(s, d))
+            {
+                edges.erase(edges.begin() + index);
+                edges.erase(edges.begin() + index - 1);
+                std::cout << "OK" << std::endl;
+            }
+            else
+            {
+                std::cout << ERROR << std::endl;
+            }
         }
         else
         {
             std::cout << ERROR << std::endl;
         }
-    }
-    else
-    {
-        std::cout << ERROR << std::endl;
     }
 }
