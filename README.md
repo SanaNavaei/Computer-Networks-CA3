@@ -239,3 +239,55 @@ void Graph::show()
 
 }
 ```
+
+# Algorithms
+
+## Distance Vector (DVRP)  
+Distance Vector Routing Protocol (DVRP) is a type of routing protocol used in computer networks to determine the best path for data packets to travel from a source to a destination. In DVRP, each router maintains a table that lists the distance to each destination network and the next hop router to reach that network. The router periodically broadcasts its routing table to its neighboring routers, which use this information to update their own routing tables. This process continues until all routers in the network have converged on a consistent set of routing tables.  
+
+There are some advantages and disadvantages of DVRP:
+- Advantages:
+    - Simplicity
+    - Compatibility
+    - Low overhead
+- Disadvantages:
+    - Slow convergence
+    - Routing loops
+    - Limited metrics
+
+Now we explain the dvrp command in our code:  
+when we enter `dvrp <source node>`, it means that the function `dvrp(int source)` is called only once and shows the route from the requested node. But when we enter `dvrp`, the function `dvrp()` is called multiple times and it shows the route from all nodes. The funtion `handler_dvrp(std::string args)` does this. If we have source node, calls the function one time. And if we don't have specific source node, calls the function as many as the number of nodes.   
+The function `dvrp(int source)` implements the distance vector algorithm to compute the DVRP for a given node. It uses two vectors to store the distance and parent information for each node, and iteratively updates these vectors until the shortest path to each node is found.  
+
+```c++
+void Graph::dvrp(int source)
+{
+    int nodes_size = nodes.size() + 1;
+    std::vector<int> distance(nodes_size);
+    std::vector<int> parent(nodes_size);
+
+    for (int i = 0; i < nodes_size; i++)
+    {
+        distance[i] = INFINITY;
+        parent[i] = -1;
+    }
+
+    distance[source] = 0;
+    for (int i = 1; i < nodes_size; i++)
+    {
+        for (int j = 0; j < edges.size(); j++)
+        {
+            int u = edges[j].u;
+            int v = edges[j].v;
+            int w = edges[j].w;
+            if (distance[u] + w < distance[v])
+            {
+                distance[v] = distance[u] + w;
+                parent[v] = u;
+            }
+        }
+    }
+
+    print_dvrp(source, distance, parent);
+}
+```
