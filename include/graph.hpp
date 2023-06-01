@@ -28,6 +28,7 @@ public:
     void create_graph(std::string args);
     void show();
     void modify(std::string args);
+    void remove(std::string args);
 
     bool handle_same_nodes(int u, int v);
 
