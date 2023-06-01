@@ -25,5 +25,9 @@ void Command::read_command()
         {
             graph.modify(args);
         }
+        else if(command == "remove")
+        {
+            graph.remove(args);
+        }
     }
 }
