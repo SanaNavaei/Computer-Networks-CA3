@@ -296,3 +296,29 @@ void Graph::modify(std::string args)
         std::cout << ERROR << std::endl;   
     }
 }
+
+void Graph::remove(std::string args)
+{
+    std::string ss = args.substr(0,1);
+    std::string dd = args.substr(2,1);
+    int s = stoi(ss);//std::strtol(args[0].c_str(), nullptr, 10);
+    int d = stoi(dd);
+    int index;
+    if (nodes.count(s) && nodes.count(d))
+    {
+        if(index = check_if_exist(s, d))
+        {
+            edges.erase(edges.begin() + index);
+            edges.erase(edges.begin() + index - 1);
+            std::cout << "OK" << std::endl;
+        }
+        else
+        {
+            std::cout << ERROR << std::endl;
+        }
+    }
+    else
+    {
+        std::cout << ERROR << std::endl;
+    }
+}
