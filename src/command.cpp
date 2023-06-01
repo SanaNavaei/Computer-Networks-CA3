@@ -21,5 +21,9 @@ void Command::read_command()
         {
             graph.show();
         }
+        else if(command == "modify")
+        {
+            graph.modify(args);
+        }
     }
 }
