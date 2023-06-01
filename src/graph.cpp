@@ -264,41 +264,56 @@ int Graph::check_if_exist(int s, int d)
     return 0;
 }
 
-bool check_format(std::string args)
+std::vector<std::string> check_format(std::string args)
 {
-    int size = args.size();
+    std::stringstream ss(args);
+    std::string item;
+    std::vector<std::string>items;
+    while(std::getline(ss, item, DELIMITER))
+    {
+        items.push_back(item);
+    }
+    int size = items.size();
     bool error_flag = false;
-    if(size != 3 || args[1] != '-')
+    if(size != 2)
         error_flag = true;
     
-    else if(!isdigit(args[0]) || !isdigit(args[2]))
+    else if(!(strspn(items[0].c_str(), "0123456789" ) == items[0].size()) || 
+            !(strspn(items[1].c_str(), "0123456789" ) == items[1].size()))
         error_flag = true;
     if(error_flag)
     {
-        //std::cout << ERROR << std::endl;
-        return false;
+        std::vector<std::string> not_ok;
+        not_ok.push_back("");
+        return not_ok;
     }
-    return true;
+    return items;
 }
 
 bool check_extended_format(std::string args)
 {
-    bool error_flag = false;
-    if(args.size() == 5)
+    std::stringstream ss(args);
+    std::string item;
+    std::vector<std::string>items;
+    while(std::getline(ss, item, DELIMITER))
     {
-        if(check_format(args.substr(0,3)))
-        {
-            if(args[3] != '-' || !isdigit(args[4]))
-                error_flag = true;
-        }
+        items.push_back(item);
     }
-    else if(args.size() == 6)
+    bool error_flag = false;
+    if(items.size() == 3)
     {
-        if(check_format(args.substr(0,3)))
-        {
-            if(!isdigit(args[5]) || args[3] != '-' || args[4] != '-')
-                error_flag = true;
-        }
+        if(!(strspn( items[0].c_str(), "0123456789" ) == items[0].size()) || 
+           !(strspn( items[1].c_str(), "0123456789" ) == items[1].size()) ||
+           !(strspn( items[2].c_str(), "0123456789" ) == items[2].size()))
+           error_flag = true;
+    }
+    else if(items.size() == 4)
+    {
+        if(!(strspn( items[0].c_str(), "0123456789" ) == items[0].size()) || 
+           !(strspn( items[1].c_str(), "0123456789" ) == items[1].size()) ||
+           !(strspn( items[3].c_str(), "0123456789" ) == items[2].size()) ||
+           !(strspn( items[2].c_str(), "" ) == items[2].size()))
+           error_flag = true;        
     }
     else 
     {
@@ -350,12 +365,12 @@ void Graph::modify(std::string args)
 
 void Graph::remove(std::string args)
 {
-    if(check_format(args))
+
+    std::vector<std::string> result = check_format(args);
+    if(result[0] != "")
     {
-        std::string ss = args.substr(0,1);
-        std::string dd = args.substr(2,1);
-        int s = stoi(ss);//std::strtol(args[0].c_str(), nullptr, 10);
-        int d = stoi(dd);
+        int s = stoi(result[0]);//std::strtol(args[0].c_str(), nullptr, 10);
+        int d = stoi(result[1]);
         int index;
         if (nodes.count(s) && nodes.count(d))
         {
@@ -376,5 +391,5 @@ void Graph::remove(std::string args)
         }
     }
     else
-        std::cout << ERROR << std::endl;
+        std::cout << ERROR << std::endl; 
 }
