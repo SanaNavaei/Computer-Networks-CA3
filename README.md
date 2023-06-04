@@ -272,3 +272,19 @@ void Graph::dvrp(int source)
     print_dvrp(source, distance, parent);
 }
 ```
+# Ouputs
+In this section, the output of the commands for each section is given separately.  
+## topology
+![topology](pictures/topology.png)
+## show
+![show](pictures/show.png)
+## modify
+![modify](pictures/modify.png)
+## remove
+![remove](pictures/remove.png)
+## dvrp
+
+- dvrp 1  
+![dvrp1](pictures/dvrp1.png)
+- dvrp  
+![dvrp](pictures/dvrp.png)
