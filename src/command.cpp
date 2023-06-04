@@ -29,6 +29,10 @@ void Command::read_command()
         {
             graph.remove(args);
         }
+        else if(command == "lsrp")
+        {
+            graph.handler_lsrp(args);
+        }
         else if(command == "dvrp")
         {
             graph.handler_dvrp(args);
