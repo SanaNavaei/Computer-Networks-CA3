@@ -32,6 +32,7 @@ public:
     void show();
     void modify(std::string args);
     void remove(std::string args);
+    void handler_lsrp(std::string args);
     void handler_dvrp(std::string args);
     void dvrp(int source);
     void print_dvrp(int source, std::vector<int> &distance, std::vector<int> &parent);
