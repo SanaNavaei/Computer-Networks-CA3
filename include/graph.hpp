@@ -34,14 +34,18 @@ public:
     void remove(std::string args);
     void handler_lsrp(std::string args);
     void lsrp(int source);
+    void print_lsrp(std::vector<int> &distance);
+    void print_lsrp2(int source, std::vector<int> &distance, std::vector<int> &parent);
     void handler_dvrp(std::string args);
     void dvrp(int source);
     void print_dvrp(int source, std::vector<int> &distance, std::vector<int> &parent);
 
     bool handle_same_nodes(int u, int v);
-
-    std::vector<graphs> split_string(std::string inputString, bool just_split);
+    
     int check_if_exist(int s, int d);
+    int minDistance(std::vector<int> distance, std::vector<bool> visited);
+
+    std::vector<graphs> split_string(std::string inputString, bool just_split);    
 };
 
 #endif
