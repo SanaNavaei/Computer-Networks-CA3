@@ -172,16 +172,13 @@ void Graph::show()
     {
         int findNumDigit = countDigits(node);
         int space_size = max_size - findNumDigit;
-
         print_handler(std::to_string(node), space_size);
     }
 
     std::cout << std::endl;
     int delim_count = (nodes.size() + 2) * max_size;
     for (int i = 0; i < delim_count; i++)
-    {
         std::cout << "-";
-    }
 
     std::cout << std::endl;
     for(auto node: nodes)
@@ -199,18 +196,10 @@ void Graph::show()
                 //print 0
                 int findNumDigit = countDigits(0);
                 int space_size = max_size - findNumDigit;
-                for (int j = 0; j < space_size / 2; j++)
-                {
-                    std::cout << " ";
-                }
-                std::cout << 0;
-                for (int j = 0; j < space_size / 2; j++)
-                {
-                    std::cout << " ";
-                }
+                print_handler(std::to_string(0), space_size);
                 continue;
             }
-
+            
             bool found = false;
             for (int i = 0; i < edges.size(); i++)
             {
@@ -220,23 +209,15 @@ void Graph::show()
                     int findNumDigit = countDigits(edges[i].w);
                     int space_size = max_size - findNumDigit;
                     found = true;
-
                     print_handler(std::to_string(edges[i].w), space_size);
                     break;
                 }
             }
-            if(!found)
-            {
-                //print -1
-                int findNumDigit = countDigits(-1);
-                int space_size = max_size - findNumDigit;
-
+            if(!found) //print -1
                 std::cout << " " << -1 << "  ";
-            }
         }
         std::cout << std::endl;
     }
-
 }
 ```
 
