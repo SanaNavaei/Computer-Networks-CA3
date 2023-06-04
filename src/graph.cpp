@@ -342,6 +342,98 @@ void Graph::remove(std::string args)
         std::cout << ERROR << std::endl; 
 }
 
+void Graph::print_lsrp2(int source, std::vector<int> &distance, std::vector<int> &parent)
+{
+    std::cout << "  Path  [s] -> [d]  | Min-Cost | Shortest-Path \n";
+    for(auto node: nodes)
+    {
+        if(source == node)
+            continue;
+
+        //print path
+        std::string path = std::to_string(source) + "->" + std::to_string(node);
+        int size = path.size();
+        int space_size = 20 - size;
+
+        print_handler(path, space_size);
+        std::cout << "|";
+
+        //print min cost
+        int distance_ = distance[node];
+        if (distance[node] == INFINITY)
+            distance_ = -1;
+        int findNumDigit = countDigits(distance_);
+
+        space_size = 10 - findNumDigit;
+        print_handler(std::to_string(distance_), space_size);
+        std::cout << "|";
+
+        //print shortest paht
+        std::string path_ = "";
+        int par = node;
+        while (parent[par] != -1)
+        {
+            path_ = " -> " + std::to_string(par) + path_;
+            par = parent[par];
+        }
+        if(path_ != "")
+            std::cout << " " << source << path_;
+        else 
+            std::cout << " No path!";
+        std::cout << std::endl;
+    }
+}
+
+void Graph::print_lsrp(std::vector<int> &distance)
+{
+    int max_size = 5;
+    std::cout << "Dest";
+    for(auto node:nodes)
+    {
+        int findNumDigit = countDigits(node);
+        int space_size = max_size - findNumDigit;
+
+        print_handler(std::to_string(node), space_size);
+        std::cout << "|";
+    }
+    std::cout << std::endl;
+
+    std::cout << "cost";
+    for(auto node:nodes)
+    {
+        int findNumDigit;
+        if(distance[node] == INFINITY)
+        {
+            findNumDigit = countDigits(-1);
+            int space_size = max_size - findNumDigit;
+            print_handler(std::to_string(-1), space_size);
+        }
+        else
+        {
+            findNumDigit = countDigits(distance[node]);
+            int space_size = max_size - findNumDigit;
+            print_handler(std::to_string(distance[node]), space_size);
+        }
+        std::cout << "|";
+    }
+    std::cout << std::endl;
+    int node_size = nodes.size();
+    for (int i = 0; i < 7 * nodes.size(); i++)
+    {
+        std::cout << "-";
+    }
+    std::cout << std::endl;
+}
+
+int Graph::minDistance(std::vector<int> distance, std::vector<bool> visited)
+{
+    int min = INFINITY, min_index;
+    for (int v = 0; v < nodes.size(); v++)
+        if (visited[v] == false && distance[v] <= min)
+            min = distance[v], min_index = v;
+    return min_index;
+}
+
 void Graph::lsrp(int source)
 {
     int nodes_size = nodes.size() + 1;
