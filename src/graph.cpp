@@ -428,7 +428,7 @@ void Graph::print_lsrp(std::vector<int> &distance)
 int Graph::minDistance(std::vector<int> distance, std::vector<bool> visited)
 {
     int min = INFINITY, min_index;
-    for (int v = 0; v < nodes.size(); v++)
+    for (int v = 0; v < nodes.size() + 1; v++)
         if (visited[v] == false && distance[v] <= min)
             min = distance[v], min_index = v;
     return min_index;
