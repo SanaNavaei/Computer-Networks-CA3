@@ -294,6 +294,17 @@ void Graph::remove(std::string args)
 }
 ```
 # Algorithms
+## Link State (LSRP)
+The Link State Routing Protocol (LSRP) algorithm is a routing algorithm used in computer networks to determine the shortest path between nodes in a network graph. It is a dynamic routing algorithm that builds a complete view of the network by exchanging information about link costs and topology changes among the network nodes.
+Here are the steps of the implementation: 
+
+-Initialization: Each node in the network graph initializes its own state, including its own identifier, link costs to neighboring nodes, and a database of known network information.
+
+-Flooding of Link State Advertisements (LSAs): Each node floods its LSAs throughout the network. LSAs contain information about the node's identifier, link costs, and other relevant network information. (here in our code it is known as "edges" vector which is included the nodes and the link between them.)
+
+-Building the Shortest Path Tree: Each node collects LSAs from all other nodes and constructs a complete view of the network topology. This information is used to build a shortest path tree rooted at the node itself, which represents the shortest paths to all other nodes in the network.
+
+-Dijkstra's Algorithm: Using the shortest path tree, each node applies Dijkstra's algorithm to compute the shortest path from itself to all other nodes. This algorithm determines the minimum cost paths by iteratively selecting the next node with the minimum distance and updating the distances to its neighbors.
 
 ## Distance Vector (DVRP)  
 Distance Vector Routing Protocol (DVRP) is a type of routing protocol used in computer networks to determine the best path for data packets to travel from a source to a destination. In DVRP, each router maintains a table that lists the distance to each destination network and the next hop router to reach that network. The router periodically broadcasts its routing table to its neighboring routers, which use this information to update their own routing tables. This process continues until all routers in the network have converged on a consistent set of routing tables.  
