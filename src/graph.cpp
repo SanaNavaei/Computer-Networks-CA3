@@ -342,6 +342,47 @@ void Graph::remove(std::string args)
         std::cout << ERROR << std::endl; 
 }
 
+void Graph::lsrp(int source)
+{
+    int nodes_size = nodes.size() + 1;
+    std::vector<int> distance(nodes_size);
+    std::vector<int> parent(nodes_size);
+    std::vector<bool> visited(nodes_size);
+
+    for (int i = 0; i < nodes_size; i++)
+    {
+        distance[i] = INFINITY;
+        parent[i] = -1;
+        visited[i] = false;
+    }
+
+    distance[source] = 0;
+
+    for (int i = 0; i < nodes.size() - 1; i++)
+    {
+        int u1 = minDistance(distance, visited);
+        visited[u1] = true;
+
+        for (int j = 0; j < edges.size(); j++)
+        {
+            int u = edges[j].u;
+            int v = edges[j].v;
+            int w = edges[j].w;
+            if(u1 == u && visited[v] == false && distance[u] != INFINITY)
+            {
+                if(distance[u] + w < distance[v])
+                {
+                    distance[v] = distance[u] + w;
+                    parent[v] = u;
+                }
+            }
+        }
+        std::cout << "Iter " << i + 1 << ":\n";
+        print_lsrp(distance);
+    }
+    print_lsrp2(source, distance, parent);
+}
+
 void Graph::handler_lsrp(std::string args)
 {
     //check if we have source
