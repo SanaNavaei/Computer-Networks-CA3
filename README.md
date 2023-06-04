@@ -220,7 +220,79 @@ void Graph::show()
     }
 }
 ```
+## Modify Command
+In `modify(std::string args)` function, we call the `split_string(args, true)` function to seperate the edges and determine each node's neighbors and the cost of the edge between them. After that, we check if the edge is already in the topology. If it is, we change the cost of the edge. If it is not, we add the edge to the topology. We print `OK` to the console to show that the topology is modified successfully. Otherwise, we print `ERROR` to the console.  
 
+```c++
+void Graph::modify(std::string args)
+{
+    std::vector<graphs> this_edge = split_string(args, true);
+    int s = this_edge[0].u;
+    int d = this_edge[0].v;
+    int c = this_edge[0].w;
+    if (s == d)
+    {
+        std::cout << ERROR << std::endl;
+    }
+    else if(nodes.count(s) && nodes.count(d))
+    {
+        int index;
+        if(index = check_if_exist(s, d))
+        {
+            edges[index - 1].w = c;
+            edges[index].w = c;
+        }
+        else
+        {
+            graphs new_graph = {s, d, c};
+            graphs new_graph2 = {d, s, c};
+            edges.push_back(new_graph);
+            edges.push_back(new_graph2);
+        }
+        std::cout << "OK" << std::endl;
+    }
+    else
+    {
+        std::cout << ERROR << std::endl;
+    }
+}
+```
+
+## Remove Command
+In `remove()` function, we remove the edge between two nodes. At first, we determine the first and second node. Then we check if both nodes s and d exist in the graph. If they do, then we check if there is an edge between them, if there is, we remove the edge. Otherwise, we print `ERROR` to the console.  
+
+```c++
+void Graph::remove(std::string args)
+{
+
+    std::vector<std::string> result = check_format(args);
+    if(result[0] != "")
+    {
+        int s = stoi(result[0]);
+        int d = stoi(result[1]);
+        int index;
+        if (nodes.count(s) && nodes.count(d))
+        {
+            if(index = check_if_exist(s, d))
+            {
+                edges.erase(edges.begin() + index);
+                edges.erase(edges.begin() + index - 1);
+                std::cout << "OK" << std::endl;
+            }
+            else
+            {
+                std::cout << ERROR << std::endl;
+            }
+        }
+        else
+        {
+            std::cout << ERROR << std::endl;
+        }
+    }
+    else
+        std::cout << ERROR << std::endl; 
+}
+```
 # Algorithms
 
 ## Distance Vector (DVRP)  
