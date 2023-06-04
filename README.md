@@ -306,6 +306,61 @@ Here are the steps of the implementation:
 
 -Dijkstra's Algorithm: Using the shortest path tree, each node applies Dijkstra's algorithm to compute the shortest path from itself to all other nodes. This algorithm determines the minimum cost paths by iteratively selecting the next node with the minimum distance and updating the distances to its neighbors.
 
+Now we explain the lsrp command in our code:  
+when we enter `lsrp <source node>`, it means that the function `lsrp(int source)` is called only once and shows the route from the requested node. But when we enter `lsrp`, the function `lsrp()` is called multiple times and it shows the route from all nodes. The funtion `handler_lsrp(std::string args)` does this. If we have source node, calls the function one time. And if we don't have specific source node, calls the function as many as the number of nodes.   
+The function `lsrp(int source)` as I mentioned above use dijkstra's algorithm to find the shortest path. and the three new vectors (distance, parent, visited) which are declared here are used in order to implement dijkstra. 
+```c++
+int Graph::minDistance(std::vector<int> distance, std::vector<bool> visited)
+{
+    int min = INFINITY, min_index;
+    for (int v = 0; v < nodes.size() + 1; v++)
+        if (visited[v] == false && distance[v] <= min)
+            min = distance[v], min_index = v;
+    return min_index;
+}
+
+void Graph::lsrp(int source)
+{
+    int nodes_size = nodes.size() + 1;
+    std::vector<int> distance(nodes_size);
+    std::vector<int> parent(nodes_size);
+    std::vector<bool> visited(nodes_size);
+
+    for (int i = 0; i < nodes_size; i++)
+    {
+        distance[i] = INFINITY;
+        parent[i] = -1;
+        visited[i] = false;
+    }
+
+    distance[source] = 0;
+
+    for (int i = 0; i < nodes.size() - 1; i++)
+    {
+        int u1 = minDistance(distance, visited);
+        visited[u1] = true;
+
+        for (int j = 0; j < edges.size(); j++)
+        {
+            int u = edges[j].u;
+            int v = edges[j].v;
+            int w = edges[j].w;
+            if(u1 == u && visited[v] == false && distance[u] != INFINITY)
+            {
+                if(distance[u] + w < distance[v])
+                {
+                    distance[v] = distance[u] + w;
+                    parent[v] = u;
+                }
+            }
+        }
+        std::cout << "Iter " << i + 1 << ":\n";
+        print_lsrp(distance);
+    }
+    print_lsrp2(source, distance, parent);
+}
+```
+
 ## Distance Vector (DVRP)  
 Distance Vector Routing Protocol (DVRP) is a type of routing protocol used in computer networks to determine the best path for data packets to travel from a source to a destination. In DVRP, each router maintains a table that lists the distance to each destination network and the next hop router to reach that network. The router periodically broadcasts its routing table to its neighboring routers, which use this information to update their own routing tables. This process continues until all routers in the network have converged on a consistent set of routing tables.  
 
