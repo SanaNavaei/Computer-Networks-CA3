@@ -342,6 +342,31 @@ void Graph::remove(std::string args)
         std::cout << ERROR << std::endl; 
 }
 
+void Graph::handler_lsrp(std::string args)
+{
+    //check if we have source
+    if(args.size() == 0)
+    {
+        for(auto node: nodes)
+        {
+            std::cout << "Iter " << node << ":\n";
+            lsrp(node);
+        }
+    }
+    else
+    {
+        int source = stoi(args);
+        if(nodes.count(source))
+        {
+            lsrp(source);
+        }
+        else
+        {
+            std::cout << ERROR << std::endl;
+        }
+    }
+}
+
 void Graph::handler_dvrp(std::string args)
 {
     //check if we have source
