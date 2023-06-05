@@ -477,6 +477,7 @@ void Graph::lsrp(int source)
 
 void Graph::handler_lsrp(std::string args)
 {
+    auto start = high_resolution_clock::now();
     //check if we have source
     if(args.size() == 0)
     {
@@ -498,10 +499,14 @@ void Graph::handler_lsrp(std::string args)
             std::cout << ERROR << std::endl;
         }
     }
+    auto end = high_resolution_clock::now();
+    auto duration = duration_cast<nanoseconds>(end - start);
+    std::cout << "Time taken by LSRP: "<< duration.count() << " nanoseconds" << std::endl;
 }
 
 void Graph::handler_dvrp(std::string args)
 {
+    auto start = high_resolution_clock::now();
     //check if we have source
     if(args.size() == 0)
     {
@@ -524,6 +529,9 @@ void Graph::handler_dvrp(std::string args)
             std::cout << ERROR << std::endl;
         }
     }
+    auto end = high_resolution_clock::now();
+    auto duration = duration_cast<nanoseconds>(end - start);
+    std::cout << "Time taken by DVRP: "<< duration.count() << " nanoseconds" << std::endl;
 }
 
 void Graph::dvrp(int source)
