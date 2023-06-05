@@ -422,9 +422,9 @@ In this section, the output of the commands for each section is given separately
 ![remove](pictures/remove.png)
 ## lsrp
 
-- lsrp 1
+- lsrp 1  
 ![lsrp1](pictures/lsrp1.png)
-- lsrp
+- lsrp  
 ![lsrp](pictures/lsrp.png)
 ## dvrp
 
