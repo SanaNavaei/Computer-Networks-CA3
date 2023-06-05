@@ -410,7 +410,7 @@ void Graph::dvrp(int source)
     print_dvrp(source, distance, parent);
 }
 ```
-# Ouputs
+# Output of commands
 In this section, the output of the commands for each section is given separately.  
 ## topology
 ![topology](pictures/topology.png)
@@ -432,3 +432,21 @@ In this section, the output of the commands for each section is given separately
 ![dvrp1](pictures/dvrp1.png)
 - dvrp  
 ![dvrp](pictures/dvrp.png)
+
+# Results
+In this part, the following graph is given to the program and we run dvrp and lsrp algorithms on it. On the other hand, we also consider the execution time of these algorithms so that we can compare them.  
+![graph](pictures/graph.png)
+```c++
+topology 13-9-7 9-12-5 13-6-4 1-5-6 5-10-3 1-7-7 10-12-12 10-4-11 4-6-19 11-6-25 11-8-16 12-3-8 12-7-8 3-8-4 3-7-1 8-6-17 7-2-13 2-6-2
+```
+
+Now we run two algorithms on it. Due to the length of the answer, we don't​ post its picture.  
+![lsrp](pictures/result_lsrp1.png)
+![dvrp](pictures/result_dvrp1.png)
+
+Now we remove the edge between nodes 4 and 10 and run the two algorithms again.  
+![remove](pictures/result_remove.png)
+![lsrp](pictures/result_lsrp2.png)
+![dvrp](pictures/result_dvrp2.png)
+
+As it is clear in the figures, after removing edge 4-10, the time of the lsrp and dvrp has decreased. Of course, the obtained numbers and the proportion between these numbers depend on the type of implementation algorithm in each section.  
